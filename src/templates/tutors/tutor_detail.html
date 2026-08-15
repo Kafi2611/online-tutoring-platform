@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Tutor Profile - TutorHub{% endblock %}
+{% block content %}
+<article class="detail-card">
+    <div class="detail-top">
+        <div>
+            <span class="badge">{{ profile.subject|default:"Tutor" }}</span>
+            <h1>{{ profile.user.get_full_name|default:profile.user.username }}</h1>
+        </div>
+        {% if user.is_authenticated and user.id == profile.user.id %}
+            <a class="button secondary" href="{% url 'tutors:profile_edit' %}">Edit My Profile</a>
+        {% endif %}
+    </div>
+
+    <dl class="detail-list">
+        <dt>Qualification</dt><dd>{{ profile.qualification|default:"Not added yet" }}</dd>
+        <dt>Experience</dt><dd>{{ profile.experience_years }} year{{ profile.experience_years|pluralize }}</dd>
+        <dt>Availability</dt><dd>{{ profile.availability|default:"Not added yet" }}</dd>
+        <dt>About</dt><dd>{{ profile.bio|default:"No biography added yet."|linebreaksbr }}</dd>
+    </dl>
+
+    <p class="muted">Tutor discovery is complete. The Request Session button will be connected in Member 3's booking/dashboard feature.</p>
+</article>
+{% endblock %}

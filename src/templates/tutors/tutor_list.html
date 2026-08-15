@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Find Tutors - TutorHub{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <h1>Find Tutors</h1>
+        <p>Search by subject or tutor name.</p>
+    </div>
+</div>
+
+<form class="search-form" method="get">
+    <input type="search" name="q" value="{{ query }}" placeholder="e.g. Mathematics, Programming, Nadia">
+    <button class="button" type="submit">Search</button>
+    {% if query %}<a class="button secondary" href="{% url 'tutors:list' %}">Clear</a>{% endif %}
+</form>
+
+<div class="card-grid">
+    {% for profile in tutors %}
+        <article class="card">
+            <span class="badge">{{ profile.subject }}</span>
+            <h2>{{ profile.user.get_full_name|default:profile.user.username }}</h2>
+            <p><strong>Qualification:</strong> {{ profile.qualification|default:"Not added yet" }}</p>
+            <p><strong>Experience:</strong> {{ profile.experience_years }} year{{ profile.experience_years|pluralize }}</p>
+            <a class="button small" href="{% url 'tutors:detail' profile.pk %}">View Profile</a>
+        </article>
+    {% empty %}
+        <div class="empty-state">No tutors matched your search.</div>
+    {% endfor %}
+</div>
+{% endblock %}
