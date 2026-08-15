@@ -1,11 +1,27 @@
 {% extends "base.html" %}
-{% block title %}TutorHub - Starter{% endblock %}
+{% block title %}TutorHub - Online Tutoring Platform{% endblock %}
 {% block content %}
 <section class="hero">
     <div>
         <span class="eyebrow">Group #07 - Section C (1st 30)</span>
-        <h1>Online Tutoring Platform</h1>
-        <p class="lead">Starter scaffold. Feature branches will add authentication, tutor discovery, and tutoring request management.</p>
+        <h1>Find the right tutor and request a session in minutes.</h1>
+        <p class="lead">TutorHub is a small MVP that connects students with tutors through searchable profiles and a simple request workflow.</p>
+        <div class="actions">
+            <a class="button" href="{% url 'tutors:list' %}">Browse Tutors</a>
+            {% if not user.is_authenticated %}
+                <a class="button secondary" href="{% url 'accounts:register' %}">Create Account</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card feature-card">
+        <h2>MVP Core Flow</h2>
+        <ol>
+            <li>Register as student or tutor</li>
+            <li>Create and browse tutor profiles</li>
+            <li>Search by subject</li>
+            <li>Request a tutoring session</li>
+            <li>Accept/reject and track status</li>
+        </ol>
     </div>
 </section>
 {% endblock %}
