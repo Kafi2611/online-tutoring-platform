@@ -11,10 +11,24 @@
 <header class="site-header">
     <div class="container nav-row">
         <a class="brand" href="{% url 'home' %}">TutorHub</a>
-        <nav class="nav-links"><a href="{% url 'home' %}">Home</a></nav>
+        <nav class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+                <form class="inline-form" method="post" action="{% url 'accounts:logout' %}">
+                    {% csrf_token %}<button class="link-button" type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Login</a>
+                <a class="button small" href="{% url 'accounts:register' %}">Register</a>
+            {% endif %}
+        </nav>
     </div>
 </header>
-<main class="container page-space">{% block content %}{% endblock %}</main>
+<main class="container page-space">
+    {% if messages %}{% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
+    {% block content %}{% endblock %}
+</main>
 <footer class="site-footer"><div class="container">CSE 3206 Lab 2 MVP - Online Tutoring Platform</div></footer>
 </body>
 </html>

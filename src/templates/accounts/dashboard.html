@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - TutorHub{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Welcome, {{ user.get_full_name|default:user.username }}</h1>
+    <p>Your role is <strong>{{ user.get_role_display }}</strong>.</p>
+    <p class="muted">This temporary dashboard verifies authentication and role handling. The final student/tutor dashboards will be connected in Member 3's feature.</p>
+</div>
+{% endblock %}
