@@ -18,5 +18,16 @@ class RegistrationTests(TestCase):
                 "password2": "StrongPass123!",
             },
         )
-        self.assertRedirects(response, reverse("accounts:dashboard"))
-        self.assertTrue(User.objects.filter(username="student1", role=User.Role.STUDENT).exists())
+
+        self.assertRedirects(
+            response,
+            reverse("accounts:dashboard"),
+            fetch_redirect_response=False,
+        )
+
+        self.assertTrue(
+            User.objects.filter(
+                username="student1",
+                role=User.Role.STUDENT
+            ).exists()
+        )
