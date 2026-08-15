@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Tutor Dashboard - TutorHub{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <h1>Tutor Dashboard</h1>
+        <p>Review and respond to tutoring requests from students.</p>
+    </div>
+    <a class="button secondary" href="{% url 'tutors:profile_edit' %}">Edit Tutor Profile</a>
+</div>
+
+<div class="table-wrap">
+<table>
+    <thead>
+        <tr><th>Student</th><th>Subject</th><th>Date / Time</th><th>Message</th><th>Status / Action</th></tr>
+    </thead>
+    <tbody>
+    {% for item in requests %}
+        <tr>
+            <td>{{ item.student.get_full_name|default:item.student.username }}</td>
+            <td>{{ item.subject }}</td>
+            <td>{{ item.preferred_date }} at {{ item.preferred_time|time:"H:i" }}</td>
+            <td>{{ item.message|default:"-" }}</td>
+            <td>
+                {% if item.status == 'PENDING' %}
+                    <div class="action-row">
+                        <form method="post" action="{% url 'bookings:update_status' item.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="accept">
+                            <button class="button success small" type="submit">Accept</button>
+                        </form>
+                        <form method="post" action="{% url 'bookings:update_status' item.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="reject">
+                            <button class="button danger small" type="submit">Reject</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <span class="status status-{{ item.status|lower }}">{{ item.get_status_display }}</span>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="5" class="empty-state">No tutoring requests have arrived yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

@@ -15,10 +15,14 @@
     <dl class="detail-list">
         <dt>Qualification</dt><dd>{{ profile.qualification|default:"Not added yet" }}</dd>
         <dt>Experience</dt><dd>{{ profile.experience_years }} year{{ profile.experience_years|pluralize }}</dd>
-        <dt>Availability</dt><dd>{{ profile.availability|default:"Not added yet" }}</dd>
+        <dt>Availability</dt><dd>{{ profile.availability|default:"Contact tutor after request" }}</dd>
         <dt>About</dt><dd>{{ profile.bio|default:"No biography added yet."|linebreaksbr }}</dd>
     </dl>
 
-    <p class="muted">Tutor discovery is complete. The Request Session button will be connected in Member 3's booking/dashboard feature.</p>
+    {% if user.is_authenticated and user.role == 'STUDENT' %}
+        <a class="button" href="{% url 'bookings:create' profile.user.id %}">Request Tutoring Session</a>
+    {% elif not user.is_authenticated %}
+        <a class="button" href="{% url 'accounts:login' %}?next={% url 'tutors:detail' profile.pk %}">Login to Request a Session</a>
+    {% endif %}
 </article>
 {% endblock %}

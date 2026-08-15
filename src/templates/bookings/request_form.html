@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Request Session - TutorHub{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h1>Request a Tutoring Session</h1>
+    <p>Sending request to <strong>{{ tutor.get_full_name|default:tutor.username }}</strong>{% if tutor_profile and tutor_profile.subject %} ({{ tutor_profile.subject }}){% endif %}.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button" type="submit">Send Request</button>
+    </form>
+</div>
+{% endblock %}
