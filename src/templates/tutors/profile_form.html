@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Tutor Profile - TutorHub{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h1>Create / Update Tutor Profile</h1>
+    <p>Add enough information for students to decide whether you are a good match.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button" type="submit">Save Profile</button>
+    </form>
+</div>
+{% endblock %}
