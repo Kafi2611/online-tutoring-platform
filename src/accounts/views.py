@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from .forms import RegisterForm
+from .models import User
 
 
 def register(request):
@@ -25,4 +26,6 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "accounts/dashboard.html")
+    if request.user.role == User.Role.TUTOR:
+        return redirect("bookings:tutor_dashboard")
+    return redirect("bookings:student_dashboard")
